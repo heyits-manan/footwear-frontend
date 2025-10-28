@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const categories = [
   {
@@ -10,13 +11,13 @@ const categories = [
   },
   {
     id: 2,
-    title: "Training",
+    title: "Sports",
     description: "Maximum support for your workout",
     color: "from-primary/20 to-primary/5",
   },
   {
     id: 3,
-    title: "Lifestyle",
+    title: "Casual",
     description: "Style meets comfort",
     color: "from-secondary to-background",
   },
@@ -34,8 +35,9 @@ const Categories = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {categories.map((category) => (
-          <div
+          <Link
             key={category.id}
+            to={`/products?category=${category.title}`}
             className={`relative h-80 rounded-lg overflow-hidden group cursor-pointer bg-gradient-to-br ${category.color}`}
           >
             <div className="absolute inset-0 p-8 flex flex-col justify-between">
@@ -51,7 +53,7 @@ const Categories = () => {
                 <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
               </Button>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
     </section>

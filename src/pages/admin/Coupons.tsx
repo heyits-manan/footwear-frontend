@@ -362,12 +362,12 @@ const AdminCoupons = () => {
                         <span className="font-semibold">
                           {coupon.discountType === 'percentage'
                             ? `${coupon.discountValue}%`
-                            : `$${coupon.discountValue.toFixed(2)}`}
+                            : `₹${coupon.discountValue.toFixed(2)}`}
                         </span>
                         {coupon.discountType === 'percentage' &&
                           coupon.maxDiscountAmount && (
                             <span className="text-xs text-gray-500 block">
-                              max ${coupon.maxDiscountAmount}
+                              max ₹{coupon.maxDiscountAmount}
                             </span>
                           )}
                       </TableCell>

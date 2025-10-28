@@ -113,7 +113,7 @@ const Cart = () => {
                               +
                             </Button>
                           </div>
-                          <span className="font-bold">${(price * item.quantity).toFixed(2)}</span>
+                          <span className="font-bold">₹{(price * item.quantity).toFixed(2)}</span>
                         </div>
                       </div>
                     </div>
@@ -131,25 +131,25 @@ const Cart = () => {
                 <div className="space-y-3 mb-4">
                   <div className="flex justify-between">
                     <span>Subtotal</span>
-                    <span>${subtotal.toFixed(2)}</span>
+                    <span>₹{subtotal.toFixed(2)}</span>
                   </div>
                   <div className="flex justify-between">
                     <span>Tax (10%)</span>
-                    <span>${tax.toFixed(2)}</span>
+                    <span>₹{tax.toFixed(2)}</span>
                   </div>
                   <div className="flex justify-between">
                     <span>Shipping</span>
-                    <span>{shipping === 0 ? 'FREE' : `$${shipping.toFixed(2)}`}</span>
+                    <span>{shipping === 0 ? 'FREE' : `₹${shipping.toFixed(2)}`}</span>
                   </div>
                   <Separator />
                   <div className="flex justify-between font-bold text-lg">
                     <span>Total</span>
-                    <span>${total.toFixed(2)}</span>
+                    <span>₹{total.toFixed(2)}</span>
                   </div>
                 </div>
                 {subtotal < 1000 && (
                   <p className="text-sm text-muted-foreground mb-4">
-                    Add ${(1000 - subtotal).toFixed(2)} more to get free shipping!
+                    Add ₹{(1000 - subtotal).toFixed(2)} more to get free shipping!
                   </p>
                 )}
                 <Button className="w-full" size="lg" onClick={handleCheckout}>

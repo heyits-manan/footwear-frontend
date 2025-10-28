@@ -374,9 +374,9 @@ const AdminProducts = () => {
                       </TableCell>
                       <TableCell>
                         <div>
-                          <p className="font-medium">${product.price.toFixed(2)}</p>
+                          <p className="font-medium">₹{product.price.toFixed(2)}</p>
                           {product.discountPrice && (
-                            <p className="text-sm text-green-600">${product.discountPrice.toFixed(2)}</p>
+                            <p className="text-sm text-green-600">₹{product.discountPrice.toFixed(2)}</p>
                           )}
                         </div>
                       </TableCell>

@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 import heroImage from "@/assets/hero-shoe.jpg";
 
 const Hero = () => {
@@ -26,20 +27,24 @@ const Hero = () => {
             footwear
           </p>
           <div className="flex flex-col sm:flex-row gap-4">
-            <Button
-              size="lg"
-              className="bg-accent hover:bg-accent/90 text-white text-lg px-8 py-6 h-auto"
-            >
-              Shop Now
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              className="border-white text-black hover:bg-white hover:text-primary text-lg px-8 py-6 h-auto"
-            >
-              Explore Collection
-            </Button>
+            <Link to="/products">
+              <Button
+                size="lg"
+                className="bg-accent hover:bg-accent/90 text-white text-lg px-8 py-6 h-auto"
+              >
+                Shop Now
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+            </Link>
+            <Link to="/products">
+              <Button
+                size="lg"
+                variant="outline"
+                className="border-white text-black hover:bg-white hover:text-primary text-lg px-8 py-6 h-auto"
+              >
+                Explore Collection
+              </Button>
+            </Link>
           </div>
         </div>
       </div>

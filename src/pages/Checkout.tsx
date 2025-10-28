@@ -239,7 +239,7 @@ const CheckoutContent = () => {
                             Size: {item.size} × {item.quantity}
                           </p>
                           <p className="text-sm font-semibold">
-                            ${((item.product.discountPrice || item.product.price) * item.quantity).toFixed(2)}
+                            ₹{((item.product.discountPrice || item.product.price) * item.quantity).toFixed(2)}
                           </p>
                         </div>
                       </div>
@@ -252,20 +252,20 @@ const CheckoutContent = () => {
                   <div className="space-y-2">
                     <div className="flex justify-between text-sm">
                       <span>Subtotal</span>
-                      <span>${subtotal.toFixed(2)}</span>
+                      <span>₹{subtotal.toFixed(2)}</span>
                     </div>
                     <div className="flex justify-between text-sm">
                       <span>Tax (10%)</span>
-                      <span>${tax.toFixed(2)}</span>
+                      <span>₹{tax.toFixed(2)}</span>
                     </div>
                     <div className="flex justify-between text-sm">
                       <span>Shipping</span>
-                      <span>{shipping === 0 ? 'FREE' : `$${shipping.toFixed(2)}`}</span>
+                      <span>{shipping === 0 ? 'FREE' : `₹${shipping.toFixed(2)}`}</span>
                     </div>
                     <Separator />
                     <div className="flex justify-between font-bold text-lg">
                       <span>Total</span>
-                      <span>${total.toFixed(2)}</span>
+                      <span>₹{total.toFixed(2)}</span>
                     </div>
                   </div>
 

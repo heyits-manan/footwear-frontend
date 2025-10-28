@@ -1,34 +1,39 @@
-import { useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
-import { productService } from '@/services/productService';
-import { useCart } from '@/contexts/CartContext';
-import Navigation from '@/components/Navigation';
-import Footer from '@/components/Footer';
-import ProductCard from '@/components/ProductCard';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Skeleton } from '@/components/ui/skeleton';
-import { useToast } from '@/hooks/use-toast';
-import { Star, ShoppingCart, Heart, Truck, Shield } from 'lucide-react';
+import { useState } from "react";
+import { useParams, Link } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { productService } from "@/services/productService";
+import { useCart } from "@/contexts/CartContext";
+import { useAuth } from "@/contexts/AuthContext";
+import Navigation from "@/components/Navigation";
+import Footer from "@/components/Footer";
+import ProductCard from "@/components/ProductCard";
+import ReviewList from "@/components/ReviewList";
+import ReviewForm from "@/components/ReviewForm";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Separator } from "@/components/ui/separator";
+import { useToast } from "@/hooks/use-toast";
+import { Star, ShoppingCart, Heart, Truck, Shield } from "lucide-react";
 
 const ProductDetail = () => {
   const { id } = useParams<{ id: string }>();
-  const [selectedSize, setSelectedSize] = useState<string>('');
-  const [selectedColor, setSelectedColor] = useState<string>('');
+  const [selectedSize, setSelectedSize] = useState<string>("");
+  const [selectedColor, setSelectedColor] = useState<string>("");
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
   const { addToCart } = useCart();
+  const { isAuthenticated } = useAuth();
   const { toast } = useToast();
 
   const { data, isLoading } = useQuery({
-    queryKey: ['product', id],
+    queryKey: ["product", id],
     queryFn: () => productService.getProductById(id!),
     enabled: !!id,
   });
 
   const { data: relatedData } = useQuery({
-    queryKey: ['relatedProducts', id],
+    queryKey: ["relatedProducts", id],
     queryFn: () => productService.getRelatedProducts(id!),
     enabled: !!id,
   });
@@ -40,9 +45,9 @@ const ProductDetail = () => {
 
     if (!selectedSize) {
       toast({
-        title: 'Error',
-        description: 'Please select a size',
-        variant: 'destructive',
+        title: "Error",
+        description: "Please select a size",
+        variant: "destructive",
       });
       return;
     }
@@ -50,17 +55,17 @@ const ProductDetail = () => {
     const sizeStock = product.sizes.find((s) => s.size === selectedSize);
     if (!sizeStock || sizeStock.stock < quantity) {
       toast({
-        title: 'Error',
-        description: 'Insufficient stock for selected size',
-        variant: 'destructive',
+        title: "Error",
+        description: "Insufficient stock for selected size",
+        variant: "destructive",
       });
       return;
     }
 
     addToCart(product, selectedSize, quantity, selectedColor);
     toast({
-      title: 'Success',
-      description: 'Product added to cart!',
+      title: "Success",
+      description: "Product added to cart!",
     });
   };
 
@@ -101,19 +106,24 @@ const ProductDetail = () => {
   }
 
   const price = product.discountPrice || product.price;
-  const hasDiscount = product.discountPrice && product.discountPrice < product.price;
+  const hasDiscount =
+    product.discountPrice && product.discountPrice < product.price;
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col mt-10">
       <Navigation />
 
       <main className="flex-1 container mx-auto px-4 py-8">
         {/* Breadcrumb */}
         <div className="text-sm text-muted-foreground mb-4">
-          <Link to="/" className="hover:underline">Home</Link>
-          {' / '}
-          <Link to="/products" className="hover:underline">Products</Link>
-          {' / '}
+          <Link to="/" className="hover:underline">
+            Home
+          </Link>
+          {" / "}
+          <Link to="/products" className="hover:underline">
+            Products
+          </Link>
+          {" / "}
           <span>{product.name}</span>
         </div>
 
@@ -122,7 +132,7 @@ const ProductDetail = () => {
           <div className="space-y-4">
             <div className="aspect-square overflow-hidden rounded-lg border">
               <img
-                src={product.images[selectedImage] || '/placeholder.svg'}
+                src={product.images[selectedImage] || "/placeholder.svg"}
                 alt={product.name}
                 className="w-full h-full object-cover"
               />
@@ -133,10 +143,16 @@ const ProductDetail = () => {
                   key={index}
                   onClick={() => setSelectedImage(index)}
                   className={`aspect-square rounded-lg overflow-hidden border-2 ${
-                    selectedImage === index ? 'border-primary' : 'border-transparent'
+                    selectedImage === index
+                      ? "border-primary"
+                      : "border-transparent"
                   }`}
                 >
-                  <img src={image} alt={`${product.name} ${index + 1}`} className="w-full h-full object-cover" />
+                  <img
+                    src={image}
+                    alt={`${product.name} ${index + 1}`}
+                    className="w-full h-full object-cover"
+                  />
                 </button>
               ))}
             </div>
@@ -149,34 +165,54 @@ const ProductDetail = () => {
               <div className="flex items-center gap-3 mb-2">
                 <p className="text-muted-foreground">{product.brand}</p>
                 {product.gender && (
-                  <Badge variant={
-                    product.gender === 'Men' ? 'default' :
-                    product.gender === 'Women' ? 'secondary' :
-                    'outline'
-                  }>
-                    {product.gender === 'Men' ? '👔' : product.gender === 'Women' ? '👗' : '👕'} {product.gender}
+                  <Badge
+                    variant={
+                      product.gender === "Men"
+                        ? "default"
+                        : product.gender === "Women"
+                        ? "secondary"
+                        : "outline"
+                    }
+                  >
+                    {product.gender === "Men"
+                      ? "👔"
+                      : product.gender === "Women"
+                      ? "👗"
+                      : "👕"}{" "}
+                    {product.gender}
                   </Badge>
                 )}
-                <Badge variant="outline" className="capitalize">{product.category}</Badge>
+                <Badge variant="outline" className="capitalize">
+                  {product.category}
+                </Badge>
               </div>
               <div className="flex items-center gap-2 mt-2">
                 <div className="flex items-center gap-1">
                   <Star className="h-5 w-5 fill-yellow-400 text-yellow-400" />
-                  <span className="font-medium">{product.averageRating.toFixed(1)}</span>
+                  <span className="font-medium">
+                    {product.averageRating.toFixed(1)}
+                  </span>
                 </div>
-                <span className="text-muted-foreground">({product.totalReviews} reviews)</span>
+                <span className="text-muted-foreground">
+                  ({product.totalReviews} reviews)
+                </span>
               </div>
             </div>
 
             <div className="flex items-center gap-4">
-              <span className="text-3xl font-bold">${price.toFixed(2)}</span>
+              <span className="text-3xl font-bold">₹{price.toFixed(2)}</span>
               {hasDiscount && (
                 <>
                   <span className="text-xl text-muted-foreground line-through">
-                    ${product.price.toFixed(2)}
+                    ₹{product.price.toFixed(2)}
                   </span>
                   <Badge className="bg-red-500">
-                    {Math.round(((product.price - product.discountPrice!) / product.price) * 100)}% OFF
+                    {Math.round(
+                      ((product.price - product.discountPrice!) /
+                        product.price) *
+                        100
+                    )}
+                    % OFF
                   </Badge>
                 </>
               )}
@@ -191,13 +227,17 @@ const ProductDetail = () => {
                 {product.sizes.map((sizeObj) => (
                   <Button
                     key={sizeObj.size}
-                    variant={selectedSize === sizeObj.size ? 'default' : 'outline'}
+                    variant={
+                      selectedSize === sizeObj.size ? "default" : "outline"
+                    }
                     onClick={() => setSelectedSize(sizeObj.size)}
                     disabled={sizeObj.stock === 0}
                     className="min-w-[60px]"
                   >
                     {sizeObj.size}
-                    {sizeObj.stock === 0 && <span className="ml-1 text-xs">(Out)</span>}
+                    {sizeObj.stock === 0 && (
+                      <span className="ml-1 text-xs">(Out)</span>
+                    )}
                   </Button>
                 ))}
               </div>
@@ -211,7 +251,7 @@ const ProductDetail = () => {
                   {product.colors.map((color) => (
                     <Button
                       key={color}
-                      variant={selectedColor === color ? 'default' : 'outline'}
+                      variant={selectedColor === color ? "default" : "outline"}
                       onClick={() => setSelectedColor(color)}
                     >
                       {color}
@@ -252,7 +292,7 @@ const ProductDetail = () => {
                 disabled={product.totalStock === 0}
               >
                 <ShoppingCart className="mr-2 h-5 w-5" />
-                {product.totalStock === 0 ? 'Out of Stock' : 'Add to Cart'}
+                {product.totalStock === 0 ? "Out of Stock" : "Add to Cart"}
               </Button>
               <Button size="lg" variant="outline">
                 <Heart className="h-5 w-5" />
@@ -263,7 +303,9 @@ const ProductDetail = () => {
             <div className="space-y-3 pt-4 border-t">
               <div className="flex items-center gap-3">
                 <Truck className="h-5 w-5 text-muted-foreground" />
-                <span className="text-sm">Free shipping on orders over $1000</span>
+                <span className="text-sm">
+                  Free shipping on orders over ₹1000
+                </span>
               </div>
               <div className="flex items-center gap-3">
                 <Shield className="h-5 w-5 text-muted-foreground" />
@@ -273,16 +315,44 @@ const ProductDetail = () => {
           </div>
         </div>
 
-        {/* Related Products */}
-        {relatedData && relatedData.products.length > 0 && (
-          <div>
-            <h2 className="text-2xl font-bold mb-6">You May Also Like</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {relatedData.products.map((product) => (
-                <ProductCard key={product._id} product={product} />
-              ))}
+        {/* Reviews Section */}
+        <Separator className="my-12" />
+        <div>
+          <h2 className="text-2xl font-bold mb-6">Customer Reviews</h2>
+          <div className="grid lg:grid-cols-3 gap-8">
+            <div className="lg:col-span-2">
+              <ReviewList productId={id!} />
+            </div>
+            <div>
+              {isAuthenticated ? (
+                <ReviewForm productId={id!} />
+              ) : (
+                <div className="p-6 bg-muted rounded-lg text-center">
+                  <p className="text-muted-foreground mb-4">
+                    Sign in to write a review
+                  </p>
+                  <Link to="/login">
+                    <Button>Sign In</Button>
+                  </Link>
+                </div>
+              )}
             </div>
           </div>
+        </div>
+
+        {/* Related Products */}
+        {relatedData && relatedData.products.length > 0 && (
+          <>
+            <Separator className="my-12" />
+            <div>
+              <h2 className="text-2xl font-bold mb-6">You May Also Like</h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                {relatedData.products.map((product) => (
+                  <ProductCard key={product._id} product={product} />
+                ))}
+              </div>
+            </div>
+          </>
         )}
       </main>
 

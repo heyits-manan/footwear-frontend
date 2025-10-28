@@ -34,7 +34,7 @@ const AdminDashboard = () => {
   const statCards = [
     {
       title: 'Total Revenue',
-      value: `$${stats?.totalRevenue?.toFixed(2) || '0.00'}`,
+      value: `₹${stats?.totalRevenue?.toFixed(2) || '0.00'}`,
       icon: DollarSign,
       color: 'text-green-600',
     },
@@ -92,7 +92,7 @@ const AdminDashboard = () => {
                     <p className="text-sm text-muted-foreground">{order.user?.name}</p>
                   </div>
                   <div className="text-right">
-                    <p className="font-semibold">${order.total.toFixed(2)}</p>
+                    <p className="font-semibold">₹{order.total.toFixed(2)}</p>
                     <p className="text-sm text-muted-foreground">{order.orderStatus}</p>
                   </div>
                 </div>
@@ -124,7 +124,7 @@ const AdminDashboard = () => {
                   <div className="text-right">
                     <p className="font-semibold">{item.totalSold} sold</p>
                     <p className="text-sm text-muted-foreground">
-                      ${item.product?.price?.toFixed(2)}
+                      ₹{item.product?.price?.toFixed(2)}
                     </p>
                   </div>
                 </div>

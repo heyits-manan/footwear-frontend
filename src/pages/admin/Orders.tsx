@@ -197,7 +197,7 @@ const AdminOrders = () => {
           <CardContent className="pt-6">
             <div className="text-center">
               <p className="text-2xl font-bold text-green-600">
-                ${stats.totalRevenue.toFixed(2)}
+                ₹{stats.totalRevenue.toFixed(2)}
               </p>
               <p className="text-xs text-gray-500">Revenue</p>
             </div>
@@ -270,7 +270,7 @@ const AdminOrders = () => {
                       </TableCell>
                       <TableCell>{order.items?.length || 0} items</TableCell>
                       <TableCell className="font-semibold">
-                        ${order.total?.toFixed(2) || '0.00'}
+                        ₹{order.total?.toFixed(2) || '0.00'}
                       </TableCell>
                       <TableCell>
                         <Badge variant={paymentStatusColors[order.paymentStatus] || 'secondary'}>
@@ -380,7 +380,7 @@ const AdminOrders = () => {
                           </p>
                         </div>
                         <div className="text-right">
-                          <p className="font-medium">${item.price?.toFixed(2) || '0.00'}</p>
+                          <p className="font-medium">₹{item.price?.toFixed(2) || '0.00'}</p>
                           <p className="text-sm text-gray-500">Qty: {item.quantity || 0}</p>
                         </div>
                       </div>
@@ -399,11 +399,11 @@ const AdminOrders = () => {
                 <div className="bg-gray-50 p-4 rounded-lg space-y-2">
                   <div className="flex justify-between">
                     <span>Subtotal:</span>
-                    <span>${selectedOrder.total.toFixed(2)}</span>
+                    <span>₹{selectedOrder.total.toFixed(2)}</span>
                   </div>
                   <div className="flex justify-between font-semibold text-lg pt-2 border-t">
                     <span>Total:</span>
-                    <span>${selectedOrder.total.toFixed(2)}</span>
+                    <span>₹{selectedOrder.total.toFixed(2)}</span>
                   </div>
                 </div>
               </div>

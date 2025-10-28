@@ -31,10 +31,10 @@ const Navigation = () => {
             <Link to="/products" className="text-sm font-medium hover:text-accent transition-colors">
               All Products
             </Link>
-            <Link to="/products?category=Men" className="text-sm font-medium hover:text-accent transition-colors">
+            <Link to="/products?gender=Men" className="text-sm font-medium hover:text-accent transition-colors">
               Men
             </Link>
-            <Link to="/products?category=Women" className="text-sm font-medium hover:text-accent transition-colors">
+            <Link to="/products?gender=Women" className="text-sm font-medium hover:text-accent transition-colors">
               Women
             </Link>
             <Link to="/products?featured=true" className="text-sm font-medium hover:text-accent transition-colors">
