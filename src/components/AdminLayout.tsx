@@ -12,22 +12,25 @@ import {
   LogOut,
   Menu,
   X,
+  Shield,
 } from 'lucide-react';
 import { useState } from 'react';
-
-const navigation = [
-  { name: 'Dashboard', href: '/admin/dashboard', icon: LayoutDashboard },
-  { name: 'Products', href: '/admin/products', icon: Package },
-  { name: 'Orders', href: '/admin/orders', icon: ShoppingCart },
-  { name: 'Users', href: '/admin/users', icon: Users },
-  { name: 'Coupons', href: '/admin/coupons', icon: Tag },
-];
 
 const AdminLayout = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { user, logout } = useAuth();
+  const { user, logout, isSuperAdmin } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  // Navigation items - Admin Management only for superadmin
+  const navigation = [
+    { name: 'Dashboard', href: '/admin/dashboard', icon: LayoutDashboard },
+    { name: 'Products', href: '/admin/products', icon: Package },
+    { name: 'Orders', href: '/admin/orders', icon: ShoppingCart },
+    { name: 'Users', href: '/admin/users', icon: Users },
+    { name: 'Coupons', href: '/admin/coupons', icon: Tag },
+    ...(isSuperAdmin ? [{ name: 'Admin Management', href: '/admin/admins', icon: Shield }] : []),
+  ];
 
   const handleLogout = () => {
     logout();
@@ -54,11 +57,11 @@ const AdminLayout = () => {
         <div className="flex flex-col h-full">
           {/* Logo and close button */}
           <div className="flex items-center justify-between h-16 px-6 border-b">
-            <Link to="/admin/dashboard" className="flex items-center space-x-2">
+            <Link to="/admin/dashboard" className="flex items-center space-x-2" onClick={() => setSidebarOpen(false)}>
               <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-blue-700 rounded-lg flex items-center justify-center">
                 <span className="text-white font-bold text-lg">S</span>
               </div>
-              <span className="text-xl font-bold text-gray-900">STRIDE</span>
+              <span className="text-xl font-bold text-gray-900">STRIDE Admin</span>
             </Link>
             <Button
               variant="ghost"
@@ -105,7 +108,7 @@ const AdminLayout = () => {
               </div>
               <div className="ml-3 flex-1 min-w-0">
                 <p className="text-sm font-medium text-gray-900 truncate">{user?.name}</p>
-                <p className="text-xs text-gray-500 truncate">Admin</p>
+                <p className="text-xs text-gray-500 truncate capitalize">{user?.role === 'superadmin' ? 'Super Admin' : 'Admin'}</p>
               </div>
             </div>
             <Button

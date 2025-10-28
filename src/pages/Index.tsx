@@ -1,3 +1,6 @@
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
 import Navigation from "@/components/Navigation";
 import Hero from "@/components/Hero";
 import FeaturedProducts from "@/components/FeaturedProducts";
@@ -7,6 +10,21 @@ import Newsletter from "@/components/Newsletter";
 import Footer from "@/components/Footer";
 
 const Index = () => {
+  const { isAdmin } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Redirect admins to admin dashboard
+    if (isAdmin) {
+      navigate('/admin/dashboard');
+    }
+  }, [isAdmin, navigate]);
+
+  // Don't render customer UI if admin
+  if (isAdmin) {
+    return null;
+  }
+
   return (
     <div className="min-h-screen">
       <Navigation />

@@ -22,39 +22,43 @@ const Navigation = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link to="/" className="flex items-center">
+          <Link to={isAdmin ? "/admin/dashboard" : "/"} className="flex items-center">
             <h1 className="text-2xl font-black tracking-tighter">STRIDE</h1>
           </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
-            <Link to="/products" className="text-sm font-medium hover:text-accent transition-colors">
-              All Products
-            </Link>
-            <Link to="/products?gender=Men" className="text-sm font-medium hover:text-accent transition-colors">
-              Men
-            </Link>
-            <Link to="/products?gender=Women" className="text-sm font-medium hover:text-accent transition-colors">
-              Women
-            </Link>
-            <Link to="/products?featured=true" className="text-sm font-medium hover:text-accent transition-colors">
-              Featured
-            </Link>
-          </div>
+          {/* Desktop Navigation - Hidden for admins */}
+          {!isAdmin && (
+            <div className="hidden md:flex items-center space-x-8">
+              <Link to="/products" className="text-sm font-medium hover:text-accent transition-colors">
+                All Products
+              </Link>
+              <Link to="/products?gender=Men" className="text-sm font-medium hover:text-accent transition-colors">
+                Men
+              </Link>
+              <Link to="/products?gender=Women" className="text-sm font-medium hover:text-accent transition-colors">
+                Women
+              </Link>
+              <Link to="/products?featured=true" className="text-sm font-medium hover:text-accent transition-colors">
+                Featured
+              </Link>
+            </div>
+          )}
 
           {/* Actions */}
           <div className="flex items-center space-x-2">
-            {/* Cart */}
-            <Link to="/cart">
-              <Button variant="ghost" size="icon" className="relative">
-                <ShoppingCart className="h-5 w-5" />
-                {cartCount > 0 && (
-                  <Badge className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0 text-xs">
-                    {cartCount}
-                  </Badge>
-                )}
-              </Button>
-            </Link>
+            {/* Cart - Hidden for admins */}
+            {!isAdmin && (
+              <Link to="/cart">
+                <Button variant="ghost" size="icon" className="relative">
+                  <ShoppingCart className="h-5 w-5" />
+                  {cartCount > 0 && (
+                    <Badge className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0 text-xs">
+                      {cartCount}
+                    </Badge>
+                  )}
+                </Button>
+              </Link>
+            )}
 
             {/* User Menu */}
             {isAuthenticated ? (
@@ -69,20 +73,22 @@ const Navigation = () => {
                     {user?.name}
                   </div>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={() => navigate('/profile')}>
-                    <User className="mr-2 h-4 w-4" />
-                    Profile
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => navigate('/profile/orders')}>
-                    <Package className="mr-2 h-4 w-4" />
-                    My Orders
-                  </DropdownMenuItem>
-                  {isAdmin && (
+                  {isAdmin ? (
                     <>
-                      <DropdownMenuSeparator />
                       <DropdownMenuItem onClick={() => navigate('/admin/dashboard')}>
                         <LayoutDashboard className="mr-2 h-4 w-4" />
                         Admin Dashboard
+                      </DropdownMenuItem>
+                    </>
+                  ) : (
+                    <>
+                      <DropdownMenuItem onClick={() => navigate('/profile')}>
+                        <User className="mr-2 h-4 w-4" />
+                        Profile
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => navigate('/profile/orders')}>
+                        <Package className="mr-2 h-4 w-4" />
+                        My Orders
                       </DropdownMenuItem>
                     </>
                   )}

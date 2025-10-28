@@ -161,10 +161,9 @@ const ProductDetail = () => {
           {/* Product Info */}
           <div className="space-y-6">
             <div>
-              <h1 className="text-3xl font-bold mb-2">{product.name}</h1>
-              <div className="flex items-center gap-3 mb-2">
-                <p className="text-muted-foreground">{product.brand}</p>
-                {product.gender && (
+              <h1 className="text-3xl font-bold mb-3">{product.name}</h1>
+              {product.gender && (
+                <div className="mb-3">
                   <Badge
                     variant={
                       product.gender === "Men"
@@ -181,7 +180,10 @@ const ProductDetail = () => {
                       : "👕"}{" "}
                     {product.gender}
                   </Badge>
-                )}
+                </div>
+              )}
+              <div className="flex items-center gap-3 mb-2">
+                <p className="text-muted-foreground">{product.brand}</p>
                 <Badge variant="outline" className="capitalize">
                   {product.category}
                 </Badge>

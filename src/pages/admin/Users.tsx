@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from '@/lib/api';
+import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
@@ -38,7 +39,7 @@ interface User {
   _id: string;
   name: string;
   email: string;
-  role: 'customer' | 'admin';
+  role: 'customer' | 'admin' | 'superadmin';
   phone?: string;
   createdAt: string;
   addresses?: Array<{
@@ -58,6 +59,7 @@ const AdminUsers = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const { toast } = useToast();
   const queryClient = useQueryClient();
+  const { isSuperAdmin } = useAuth();
 
   // Fetch users
   const { data: usersData, isLoading } = useQuery({
@@ -209,8 +211,17 @@ const AdminUsers = () => {
                       <TableCell>{user.email}</TableCell>
                       <TableCell>{user.phone || '-'}</TableCell>
                       <TableCell>
-                        <Badge variant={user.role === 'admin' ? 'default' : 'secondary'}>
-                          {user.role}
+                        <Badge
+                          variant={
+                            user.role === 'superadmin'
+                              ? 'default'
+                              : user.role === 'admin'
+                              ? 'secondary'
+                              : 'outline'
+                          }
+                        >
+                          {user.role === 'superadmin' && <Shield className="h-3 w-3 mr-1" />}
+                          {user.role === 'superadmin' ? 'Super Admin' : user.role}
                         </Badge>
                       </TableCell>
                       <TableCell>
@@ -225,7 +236,8 @@ const AdminUsers = () => {
                           >
                             <Eye className="h-4 w-4" />
                           </Button>
-                          {user.role !== 'admin' && (
+                          {/* Hide delete button for admins and superadmins (unless current user is superadmin) */}
+                          {user.role !== 'admin' && !(user.role === 'superadmin' && !isSuperAdmin) && (
                             <Button
                               variant="ghost"
                               size="icon"
@@ -269,8 +281,17 @@ const AdminUsers = () => {
                     </div>
                     <div>
                       <p className="font-medium text-lg">{selectedUser.name}</p>
-                      <Badge variant={selectedUser.role === 'admin' ? 'default' : 'secondary'}>
-                        {selectedUser.role}
+                      <Badge
+                        variant={
+                          selectedUser.role === 'superadmin'
+                            ? 'default'
+                            : selectedUser.role === 'admin'
+                            ? 'secondary'
+                            : 'outline'
+                        }
+                      >
+                        {selectedUser.role === 'superadmin' && <Shield className="h-3 w-3 mr-1" />}
+                        {selectedUser.role === 'superadmin' ? 'Super Admin' : selectedUser.role}
                       </Badge>
                     </div>
                   </div>

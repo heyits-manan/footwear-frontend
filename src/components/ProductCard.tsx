@@ -12,6 +12,25 @@ const ProductCard = ({ product }: ProductCardProps) => {
   const price = product.discountPrice || product.price;
   const hasDiscount = product.discountPrice && product.discountPrice < product.price;
 
+  const getGenderBadge = () => {
+    if (!product.gender) return null;
+
+    const genderConfig = {
+      Men: { emoji: '👔', variant: 'default' as const },
+      Women: { emoji: '👗', variant: 'secondary' as const },
+      Unisex: { emoji: '👕', variant: 'outline' as const }
+    };
+
+    const config = genderConfig[product.gender as keyof typeof genderConfig];
+    if (!config) return null;
+
+    return (
+      <Badge variant={config.variant} className="text-xs">
+        {config.emoji} {product.gender}
+      </Badge>
+    );
+  };
+
   return (
     <Link to={`/products/${product._id}`}>
       <Card className="overflow-hidden hover:shadow-lg transition-shadow cursor-pointer group">
@@ -34,7 +53,8 @@ const ProductCard = ({ product }: ProductCardProps) => {
         </div>
         <CardContent className="p-4">
           <h3 className="font-semibold text-lg line-clamp-1">{product.name}</h3>
-          <p className="text-sm text-muted-foreground line-clamp-1">{product.brand}</p>
+          {getGenderBadge()}
+          <p className="text-sm text-muted-foreground line-clamp-1 mt-1">{product.brand}</p>
           <div className="flex items-center gap-1 mt-1">
             <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
             <span className="text-sm font-medium">{product.averageRating.toFixed(1)}</span>

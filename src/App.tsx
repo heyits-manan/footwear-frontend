@@ -17,11 +17,13 @@ import ProfileDetails from "./pages/ProfileDetails";
 import Orders from "./pages/Orders";
 import AdminLayout from "./components/AdminLayout";
 import AdminRoute from "./components/AdminRoute";
+import CustomerRoute from "./components/CustomerRoute";
 import AdminDashboard from "./pages/admin/Dashboard";
 import AdminProducts from "./pages/admin/Products";
 import AdminOrders from "./pages/admin/Orders";
 import AdminUsers from "./pages/admin/Users";
 import AdminCoupons from "./pages/admin/Coupons";
+import AdminAdmins from "./pages/admin/Admins";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -39,13 +41,15 @@ const App = () => (
               <Route path="/" element={<Index />} />
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
-              <Route path="/products" element={<Products />} />
-              <Route path="/products/:id" element={<ProductDetail />} />
-              <Route path="/cart" element={<Cart />} />
-              <Route path="/checkout" element={<Checkout />} />
+
+              {/* Customer Routes - Redirect admins to dashboard */}
+              <Route path="/products" element={<CustomerRoute><Products /></CustomerRoute>} />
+              <Route path="/products/:id" element={<CustomerRoute><ProductDetail /></CustomerRoute>} />
+              <Route path="/cart" element={<CustomerRoute><Cart /></CustomerRoute>} />
+              <Route path="/checkout" element={<CustomerRoute><Checkout /></CustomerRoute>} />
 
               {/* Customer Profile Routes */}
-              <Route path="/profile" element={<Profile />}>
+              <Route path="/profile" element={<CustomerRoute><Profile /></CustomerRoute>}>
                 <Route index element={<ProfileDetails />} />
                 <Route path="orders" element={<Orders />} />
               </Route>
@@ -65,6 +69,7 @@ const App = () => (
                 <Route path="orders" element={<AdminOrders />} />
                 <Route path="users" element={<AdminUsers />} />
                 <Route path="coupons" element={<AdminCoupons />} />
+                <Route path="admins" element={<AdminAdmins />} />
               </Route>
 
               {/* 404 Catch-all */}

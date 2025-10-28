@@ -177,7 +177,10 @@ const Products = () => {
           </div>
 
           {/* Active Filters */}
-          {(filters.search || filters.category || filters.brand || filters.gender) && (
+          {(filters.search ||
+            filters.category ||
+            filters.brand ||
+            filters.gender) && (
             <div className="flex items-center gap-2 flex-wrap mt-4">
               <span className="text-sm text-muted-foreground">
                 Active filters:
@@ -206,7 +209,12 @@ const Products = () => {
               )}
               {filters.gender && (
                 <Badge variant="secondary">
-                  {filters.gender === 'Men' ? '👔' : filters.gender === 'Women' ? '👗' : '👕'} {filters.gender}
+                  {filters.gender === "Men"
+                    ? "👔"
+                    : filters.gender === "Women"
+                    ? "👗"
+                    : "👕"}{" "}
+                  {filters.gender}
                   <button
                     onClick={() => handleFilterChange("gender", "")}
                     className="ml-2"
@@ -316,17 +324,17 @@ const ProductCard = ({ product }: { product: Product }) => {
     if (!product.gender) return null;
 
     const genderConfig = {
-      Men: { emoji: '👔', variant: 'default' as const },
-      Women: { emoji: '👗', variant: 'secondary' as const },
-      Unisex: { emoji: '👕', variant: 'outline' as const }
+      Men: { emoji: "👔", variant: "default" as const },
+      Women: { emoji: "👗", variant: "secondary" as const },
+      Unisex: { emoji: "👕", variant: "outline" as const },
     };
 
     const config = genderConfig[product.gender as keyof typeof genderConfig];
     if (!config) return null;
 
     return (
-      <Badge variant={config.variant} className="absolute top-2 left-2">
-        {config.emoji} {product.gender}
+      <Badge variant={config.variant} className="text-xs">
+        {product.gender}
       </Badge>
     );
   };
@@ -340,7 +348,6 @@ const ProductCard = ({ product }: { product: Product }) => {
             alt={product.name}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
           />
-          {getGenderBadge()}
           {hasDiscount && (
             <Badge className="absolute top-2 right-2 bg-red-500">
               Save{" "}
@@ -358,7 +365,8 @@ const ProductCard = ({ product }: { product: Product }) => {
         </div>
         <CardContent className="p-4">
           <h3 className="font-semibold text-lg line-clamp-1">{product.name}</h3>
-          <p className="text-sm text-muted-foreground line-clamp-1">
+          {getGenderBadge()}
+          <p className="text-sm text-muted-foreground line-clamp-1 mt-1">
             {product.brand}
           </p>
           <div className="flex items-center gap-1 mt-1">
