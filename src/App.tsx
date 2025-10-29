@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { CartProvider } from "@/contexts/CartContext";
+import { NotificationProvider } from "@/contexts/NotificationContext";
 import Index from "./pages/Index";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
@@ -24,6 +25,9 @@ import AdminOrders from "./pages/admin/Orders";
 import AdminUsers from "./pages/admin/Users";
 import AdminCoupons from "./pages/admin/Coupons";
 import AdminAdmins from "./pages/admin/Admins";
+import AdminAnalytics from "./pages/admin/Analytics";
+import FlashSales from "./pages/FlashSales";
+import Returns from "./pages/Returns";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -31,16 +35,18 @@ const queryClient = new QueryClient();
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <AuthProvider>
-      <CartProvider>
-        <TooltipProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
+      <NotificationProvider>
+        <CartProvider>
+          <TooltipProvider>
+            <Toaster />
+            <Sonner />
+            <BrowserRouter>
             <Routes>
               {/* Public Routes */}
               <Route path="/" element={<Index />} />
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
+              <Route path="/flash-sales" element={<FlashSales />} />
 
               {/* Customer Routes - Redirect admins to dashboard */}
               <Route path="/products" element={<CustomerRoute><Products /></CustomerRoute>} />
@@ -53,6 +59,9 @@ const App = () => (
                 <Route index element={<ProfileDetails />} />
                 <Route path="orders" element={<Orders />} />
               </Route>
+
+              {/* Customer Returns */}
+              <Route path="/returns" element={<CustomerRoute><Returns /></CustomerRoute>} />
 
               {/* Admin Routes - Protected with AdminRoute and nested in AdminLayout */}
               <Route
@@ -70,6 +79,7 @@ const App = () => (
                 <Route path="users" element={<AdminUsers />} />
                 <Route path="coupons" element={<AdminCoupons />} />
                 <Route path="admins" element={<AdminAdmins />} />
+                <Route path="analytics" element={<AdminAnalytics />} />
               </Route>
 
               {/* 404 Catch-all */}
@@ -78,6 +88,7 @@ const App = () => (
           </BrowserRouter>
         </TooltipProvider>
       </CartProvider>
+      </NotificationProvider>
     </AuthProvider>
   </QueryClientProvider>
 );

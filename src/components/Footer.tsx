@@ -1,4 +1,5 @@
 import { Facebook, Instagram, Twitter, Youtube } from "lucide-react";
+import { NewsletterSubscribe } from "@/components/NewsletterSubscribe";
 
 const Footer = () => {
   const footerLinks = {
@@ -11,6 +12,11 @@ const Footer = () => {
   return (
     <footer className="bg-primary text-primary-foreground py-16 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
+        {/* Newsletter Section */}
+        <div className="mb-12">
+          <NewsletterSubscribe source="footer" />
+        </div>
+
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
           {Object.entries(footerLinks).map(([category, links]) => (
             <div key={category}>
@@ -48,7 +54,7 @@ const Footer = () => {
               </a>
             </div>
             <p className="text-sm text-primary-foreground/70">
-              © 2024 STRIDE. All rights reserved.
+              © 2025 STRIDE. All rights reserved.
             </p>
           </div>
         </div>

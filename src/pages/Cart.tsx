@@ -1,15 +1,21 @@
-import { Link, useNavigate } from 'react-router-dom';
-import { useCart } from '@/contexts/CartContext';
-import { useAuth } from '@/contexts/AuthContext';
-import Navigation from '@/components/Navigation';
-import Footer from '@/components/Footer';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import { Separator } from '@/components/ui/separator';
-import { Trash2, ShoppingBag } from 'lucide-react';
+import { Link, useNavigate } from "react-router-dom";
+import { useCart } from "@/contexts/CartContext";
+import { useAuth } from "@/contexts/AuthContext";
+import Navigation from "@/components/Navigation";
+import Footer from "@/components/Footer";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { Trash2, ShoppingBag } from "lucide-react";
 
 const Cart = () => {
-  const { cart, removeFromCart, updateQuantity, getCartTotal, getCartItemsCount } = useCart();
+  const {
+    cart,
+    removeFromCart,
+    updateQuantity,
+    getCartTotal,
+    getCartItemsCount,
+  } = useCart();
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
@@ -20,9 +26,9 @@ const Cart = () => {
 
   const handleCheckout = () => {
     if (!isAuthenticated) {
-      navigate('/login?redirect=/checkout');
+      navigate("/login?redirect=/checkout");
     } else {
-      navigate('/checkout');
+      navigate("/checkout");
     }
   };
 
@@ -51,8 +57,10 @@ const Cart = () => {
     <div className="min-h-screen flex flex-col">
       <Navigation />
 
-      <main className="flex-1 container mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold mb-8">Shopping Cart ({getCartItemsCount()} items)</h1>
+      <main className="flex-1 container mx-auto px-4 py-20">
+        <h1 className="text-3xl font-bold mb-8">
+          Shopping Cart ({getCartItemsCount()} items)
+        </h1>
 
         <div className="grid lg:grid-cols-3 gap-8">
           {/* Cart Items */}
@@ -65,7 +73,7 @@ const Cart = () => {
                     <div className="flex gap-4">
                       <div className="w-24 h-24 flex-shrink-0">
                         <img
-                          src={item.product.images[0] || '/placeholder.svg'}
+                          src={item.product.images[0] || "/placeholder.svg"}
                           alt={item.product.name}
                           className="w-full h-full object-cover rounded"
                         />
@@ -73,13 +81,19 @@ const Cart = () => {
                       <div className="flex-1 min-w-0">
                         <div className="flex justify-between items-start mb-2">
                           <div>
-                            <h3 className="font-semibold">{item.product.name}</h3>
-                            <p className="text-sm text-muted-foreground">{item.product.brand}</p>
+                            <h3 className="font-semibold">
+                              {item.product.name}
+                            </h3>
+                            <p className="text-sm text-muted-foreground">
+                              {item.product.brand}
+                            </p>
                           </div>
                           <Button
                             variant="ghost"
                             size="icon"
-                            onClick={() => removeFromCart(item.product._id, item.size)}
+                            onClick={() =>
+                              removeFromCart(item.product._id, item.size)
+                            }
                             className="flex-shrink-0"
                           >
                             <Trash2 className="h-4 w-4" />
@@ -96,24 +110,36 @@ const Cart = () => {
                               size="icon"
                               className="h-8 w-8"
                               onClick={() =>
-                                updateQuantity(item.product._id, item.size, item.quantity - 1)
+                                updateQuantity(
+                                  item.product._id,
+                                  item.size,
+                                  item.quantity - 1
+                                )
                               }
                             >
                               -
                             </Button>
-                            <span className="w-8 text-center font-medium">{item.quantity}</span>
+                            <span className="w-8 text-center font-medium">
+                              {item.quantity}
+                            </span>
                             <Button
                               variant="outline"
                               size="icon"
                               className="h-8 w-8"
                               onClick={() =>
-                                updateQuantity(item.product._id, item.size, item.quantity + 1)
+                                updateQuantity(
+                                  item.product._id,
+                                  item.size,
+                                  item.quantity + 1
+                                )
                               }
                             >
                               +
                             </Button>
                           </div>
-                          <span className="font-bold">₹{(price * item.quantity).toFixed(2)}</span>
+                          <span className="font-bold">
+                            ₹{(price * item.quantity).toFixed(2)}
+                          </span>
                         </div>
                       </div>
                     </div>
@@ -139,7 +165,9 @@ const Cart = () => {
                   </div>
                   <div className="flex justify-between">
                     <span>Shipping</span>
-                    <span>{shipping === 0 ? 'FREE' : `₹${shipping.toFixed(2)}`}</span>
+                    <span>
+                      {shipping === 0 ? "FREE" : `₹${shipping.toFixed(2)}`}
+                    </span>
                   </div>
                   <Separator />
                   <div className="flex justify-between font-bold text-lg">
@@ -149,7 +177,8 @@ const Cart = () => {
                 </div>
                 {subtotal < 1000 && (
                   <p className="text-sm text-muted-foreground mb-4">
-                    Add ₹{(1000 - subtotal).toFixed(2)} more to get free shipping!
+                    Add ₹{(1000 - subtotal).toFixed(2)} more to get free
+                    shipping!
                   </p>
                 )}
                 <Button className="w-full" size="lg" onClick={handleCheckout}>

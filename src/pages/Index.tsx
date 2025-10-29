@@ -8,6 +8,7 @@ import GenderProducts from "@/components/GenderProducts";
 import Categories from "@/components/Categories";
 import Newsletter from "@/components/Newsletter";
 import Footer from "@/components/Footer";
+import { RecommendedProducts } from "@/components/RecommendedProducts";
 
 const Index = () => {
   const { isAdmin } = useAuth();
@@ -16,7 +17,7 @@ const Index = () => {
   useEffect(() => {
     // Redirect admins to admin dashboard
     if (isAdmin) {
-      navigate('/admin/dashboard');
+      navigate("/admin/dashboard");
     }
   }, [isAdmin, navigate]);
 
@@ -30,6 +31,7 @@ const Index = () => {
       <Navigation />
       <Hero />
       <FeaturedProducts />
+      <RecommendedProducts type="trending" title="Trending Now" limit={8} />
       <GenderProducts
         gender="Men"
         title="Men's Collection"
@@ -41,6 +43,8 @@ const Index = () => {
         description="Stylish and comfortable footwear for every occasion"
       />
       <Categories />
+      <RecommendedProducts type="new-arrivals" title="New Arrivals" limit={8} />
+      <RecommendedProducts type="best-sellers" title="Best Sellers" limit={8} />
       <Newsletter />
       <Footer />
     </div>

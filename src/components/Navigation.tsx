@@ -1,10 +1,25 @@
-import { Link, useNavigate } from 'react-router-dom';
-import { ShoppingCart, User, LogOut, Package, LayoutDashboard } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import {
+  ShoppingCart,
+  User,
+  LogOut,
+  Package,
+  LayoutDashboard,
+  Zap,
+  RotateCcw,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { useAuth } from '@/contexts/AuthContext';
-import { useCart } from '@/contexts/CartContext';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { useAuth } from "@/contexts/AuthContext";
+import { useCart } from "@/contexts/CartContext";
+import { NotificationBell } from "@/components/NotificationBell";
 
 const Navigation = () => {
   const { isAuthenticated, user, logout, isAdmin } = useAuth();
@@ -14,7 +29,7 @@ const Navigation = () => {
 
   const handleLogout = () => {
     logout();
-    navigate('/');
+    navigate("/");
   };
 
   return (
@@ -22,30 +37,49 @@ const Navigation = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link to={isAdmin ? "/admin/dashboard" : "/"} className="flex items-center">
+          <Link
+            to={isAdmin ? "/admin/dashboard" : "/"}
+            className="flex items-center"
+          >
             <h1 className="text-2xl font-black tracking-tighter">STRIDE</h1>
           </Link>
 
           {/* Desktop Navigation - Hidden for admins */}
           {!isAdmin && (
             <div className="hidden md:flex items-center space-x-8">
-              <Link to="/products" className="text-sm font-medium hover:text-accent transition-colors">
+              <Link
+                to="/products"
+                className="text-sm font-medium hover:text-accent transition-colors"
+              >
                 All Products
               </Link>
-              <Link to="/products?gender=Men" className="text-sm font-medium hover:text-accent transition-colors">
+              <Link
+                to="/products?gender=Men"
+                className="text-sm font-medium hover:text-accent transition-colors"
+              >
                 Men
               </Link>
-              <Link to="/products?gender=Women" className="text-sm font-medium hover:text-accent transition-colors">
+              <Link
+                to="/products?gender=Women"
+                className="text-sm font-medium hover:text-accent transition-colors"
+              >
                 Women
               </Link>
-              <Link to="/products?featured=true" className="text-sm font-medium hover:text-accent transition-colors">
-                Featured
+              <Link
+                to="/flash-sales"
+                className="text-sm font-medium hover:text-accent transition-colors flex items-center gap-1"
+              >
+                <Zap className="h-4 w-4" />
+                Flash Sales
               </Link>
             </div>
           )}
 
           {/* Actions */}
           <div className="flex items-center space-x-2">
+            {/* Notification Bell - For authenticated users */}
+            {isAuthenticated && <NotificationBell />}
+
             {/* Cart - Hidden for admins */}
             {!isAdmin && (
               <Link to="/cart">
@@ -75,20 +109,28 @@ const Navigation = () => {
                   <DropdownMenuSeparator />
                   {isAdmin ? (
                     <>
-                      <DropdownMenuItem onClick={() => navigate('/admin/dashboard')}>
+                      <DropdownMenuItem
+                        onClick={() => navigate("/admin/dashboard")}
+                      >
                         <LayoutDashboard className="mr-2 h-4 w-4" />
                         Admin Dashboard
                       </DropdownMenuItem>
                     </>
                   ) : (
                     <>
-                      <DropdownMenuItem onClick={() => navigate('/profile')}>
+                      <DropdownMenuItem onClick={() => navigate("/profile")}>
                         <User className="mr-2 h-4 w-4" />
                         Profile
                       </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => navigate('/profile/orders')}>
+                      <DropdownMenuItem
+                        onClick={() => navigate("/profile/orders")}
+                      >
                         <Package className="mr-2 h-4 w-4" />
                         My Orders
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => navigate("/returns")}>
+                        <RotateCcw className="mr-2 h-4 w-4" />
+                        My Returns
                       </DropdownMenuItem>
                     </>
                   )}

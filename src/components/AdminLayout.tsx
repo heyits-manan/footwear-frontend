@@ -13,6 +13,7 @@ import {
   Menu,
   X,
   Shield,
+  BarChart3,
 } from 'lucide-react';
 import { useState } from 'react';
 
@@ -29,6 +30,7 @@ const AdminLayout = () => {
     { name: 'Orders', href: '/admin/orders', icon: ShoppingCart },
     { name: 'Users', href: '/admin/users', icon: Users },
     { name: 'Coupons', href: '/admin/coupons', icon: Tag },
+    { name: 'Analytics', href: '/admin/analytics', icon: BarChart3 },
     ...(isSuperAdmin ? [{ name: 'Admin Management', href: '/admin/admins', icon: Shield }] : []),
   ];
 

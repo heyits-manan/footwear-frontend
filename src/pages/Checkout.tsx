@@ -1,19 +1,19 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useCart } from '@/contexts/CartContext';
-import { useAuth } from '@/contexts/AuthContext';
-import { orderService } from '@/services/orderService';
-import Navigation from '@/components/Navigation';
-import Footer from '@/components/Footer';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { Separator } from '@/components/ui/separator';
-import { useToast } from '@/hooks/use-toast';
-import { Loader2 } from 'lucide-react';
-import ProtectedRoute from '@/components/ProtectedRoute';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useCart } from "@/contexts/CartContext";
+import { useAuth } from "@/contexts/AuthContext";
+import { orderService } from "@/services/orderService";
+import Navigation from "@/components/Navigation";
+import Footer from "@/components/Footer";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Separator } from "@/components/ui/separator";
+import { useToast } from "@/hooks/use-toast";
+import { Loader2 } from "lucide-react";
+import ProtectedRoute from "@/components/ProtectedRoute";
 
 const CheckoutContent = () => {
   const { cart, getCartTotal, clearCart } = useCart();
@@ -23,16 +23,16 @@ const CheckoutContent = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const [shippingAddress, setShippingAddress] = useState({
-    name: user?.name || '',
-    street: '',
-    city: '',
-    state: '',
-    zipCode: '',
-    country: 'USA',
-    phone: user?.phone || '',
+    name: user?.name || "",
+    street: "",
+    city: "",
+    state: "",
+    zipCode: "",
+    country: "USA",
+    phone: user?.phone || "",
   });
 
-  const [paymentMethod, setPaymentMethod] = useState('COD');
+  const [paymentMethod, setPaymentMethod] = useState("COD");
 
   const subtotal = getCartTotal();
   const tax = subtotal * 0.1;
@@ -58,17 +58,18 @@ const CheckoutContent = () => {
       const response = await orderService.createOrder(orderData);
 
       toast({
-        title: 'Success',
-        description: 'Order placed successfully!',
+        title: "Success",
+        description: "Order placed successfully!",
       });
 
       clearCart();
       navigate(`/profile/orders`);
     } catch (error) {
       toast({
-        title: 'Error',
-        description: error instanceof Error ? error.message : 'Failed to place order',
-        variant: 'destructive',
+        title: "Error",
+        description:
+          error instanceof Error ? error.message : "Failed to place order",
+        variant: "destructive",
       });
     } finally {
       setIsLoading(false);
@@ -83,7 +84,7 @@ const CheckoutContent = () => {
   };
 
   if (cart.length === 0) {
-    navigate('/cart');
+    navigate("/cart");
     return null;
   }
 
@@ -91,7 +92,7 @@ const CheckoutContent = () => {
     <div className="min-h-screen flex flex-col">
       <Navigation />
 
-      <main className="flex-1 container mx-auto px-4 py-8">
+      <main className="flex-1 container mx-auto px-4 py-20">
         <h1 className="text-3xl font-bold mb-8">Checkout</h1>
 
         <form onSubmit={handleSubmit}>
@@ -190,26 +191,35 @@ const CheckoutContent = () => {
                   <CardTitle>Payment Method</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <RadioGroup value={paymentMethod} onValueChange={setPaymentMethod}>
+                  <RadioGroup
+                    value={paymentMethod}
+                    onValueChange={setPaymentMethod}
+                  >
                     <div className="flex items-center space-x-2 border rounded-lg p-4">
                       <RadioGroupItem value="COD" id="cod" />
                       <Label htmlFor="cod" className="flex-1 cursor-pointer">
                         <div className="font-semibold">Cash on Delivery</div>
-                        <p className="text-sm text-muted-foreground">Pay when you receive</p>
+                        <p className="text-sm text-muted-foreground">
+                          Pay when you receive
+                        </p>
                       </Label>
                     </div>
                     <div className="flex items-center space-x-2 border rounded-lg p-4">
                       <RadioGroupItem value="Card" id="card" />
                       <Label htmlFor="card" className="flex-1 cursor-pointer">
                         <div className="font-semibold">Credit/Debit Card</div>
-                        <p className="text-sm text-muted-foreground">Secure online payment</p>
+                        <p className="text-sm text-muted-foreground">
+                          Secure online payment
+                        </p>
                       </Label>
                     </div>
                     <div className="flex items-center space-x-2 border rounded-lg p-4">
                       <RadioGroupItem value="UPI" id="upi" />
                       <Label htmlFor="upi" className="flex-1 cursor-pointer">
                         <div className="font-semibold">UPI</div>
-                        <p className="text-sm text-muted-foreground">Fast & secure</p>
+                        <p className="text-sm text-muted-foreground">
+                          Fast & secure
+                        </p>
                       </Label>
                     </div>
                   </RadioGroup>
@@ -227,19 +237,28 @@ const CheckoutContent = () => {
                   {/* Items */}
                   <div className="space-y-2 max-h-64 overflow-y-auto">
                     {cart.map((item) => (
-                      <div key={`${item.product._id}-${item.size}`} className="flex gap-2">
+                      <div
+                        key={`${item.product._id}-${item.size}`}
+                        className="flex gap-2"
+                      >
                         <img
                           src={item.product.images[0]}
                           alt={item.product.name}
                           className="w-16 h-16 object-cover rounded"
                         />
                         <div className="flex-1 min-w-0">
-                          <p className="font-medium text-sm line-clamp-1">{item.product.name}</p>
+                          <p className="font-medium text-sm line-clamp-1">
+                            {item.product.name}
+                          </p>
                           <p className="text-xs text-muted-foreground">
                             Size: {item.size} × {item.quantity}
                           </p>
                           <p className="text-sm font-semibold">
-                            ₹{((item.product.discountPrice || item.product.price) * item.quantity).toFixed(2)}
+                            ₹
+                            {(
+                              (item.product.discountPrice ||
+                                item.product.price) * item.quantity
+                            ).toFixed(2)}
                           </p>
                         </div>
                       </div>
@@ -260,7 +279,9 @@ const CheckoutContent = () => {
                     </div>
                     <div className="flex justify-between text-sm">
                       <span>Shipping</span>
-                      <span>{shipping === 0 ? 'FREE' : `₹${shipping.toFixed(2)}`}</span>
+                      <span>
+                        {shipping === 0 ? "FREE" : `₹${shipping.toFixed(2)}`}
+                      </span>
                     </div>
                     <Separator />
                     <div className="flex justify-between font-bold text-lg">
@@ -269,14 +290,19 @@ const CheckoutContent = () => {
                     </div>
                   </div>
 
-                  <Button type="submit" className="w-full" size="lg" disabled={isLoading}>
+                  <Button
+                    type="submit"
+                    className="w-full"
+                    size="lg"
+                    disabled={isLoading}
+                  >
                     {isLoading ? (
                       <>
                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                         Placing Order...
                       </>
                     ) : (
-                      'Place Order'
+                      "Place Order"
                     )}
                   </Button>
                 </CardContent>

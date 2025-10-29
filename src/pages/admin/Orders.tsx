@@ -64,11 +64,11 @@ interface Order {
 }
 
 const statusColors: Record<string, 'default' | 'secondary' | 'destructive' | 'outline'> = {
-  pending: 'secondary',
-  processing: 'default',
-  shipped: 'default',
-  delivered: 'default',
-  cancelled: 'destructive',
+  Pending: 'secondary',
+  Processing: 'default',
+  Shipped: 'default',
+  Delivered: 'default',
+  Cancelled: 'destructive',
 };
 
 const paymentStatusColors: Record<string, 'default' | 'secondary' | 'destructive'> = {
@@ -93,7 +93,7 @@ const AdminOrders = () => {
   // Update order status mutation
   const updateStatusMutation = useMutation({
     mutationFn: ({ id, status }: { id: string; status: string }) =>
-      api.put(`/admin/orders/${id}`, { orderStatus: status }, true),
+      api.put(`/admin/orders/${id}`, { status }, true),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['adminOrders'] });
       toast({ title: 'Success', description: 'Order status updated successfully' });
@@ -125,11 +125,11 @@ const AdminOrders = () => {
   // Calculate stats
   const stats = {
     total: orders.length,
-    pending: orders.filter((o) => o.orderStatus === 'pending').length,
-    processing: orders.filter((o) => o.orderStatus === 'processing').length,
-    shipped: orders.filter((o) => o.orderStatus === 'shipped').length,
-    delivered: orders.filter((o) => o.orderStatus === 'delivered').length,
-    cancelled: orders.filter((o) => o.orderStatus === 'cancelled').length,
+    pending: orders.filter((o) => o.orderStatus === 'Pending').length,
+    processing: orders.filter((o) => o.orderStatus === 'Processing').length,
+    shipped: orders.filter((o) => o.orderStatus === 'Shipped').length,
+    delivered: orders.filter((o) => o.orderStatus === 'Delivered').length,
+    cancelled: orders.filter((o) => o.orderStatus === 'Cancelled').length,
     totalRevenue: orders
       .filter((o) => o.paymentStatus === 'completed')
       .reduce((sum, o) => sum + o.total, 0),
@@ -218,11 +218,11 @@ const AdminOrders = () => {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">All Orders</SelectItem>
-                  <SelectItem value="pending">Pending</SelectItem>
-                  <SelectItem value="processing">Processing</SelectItem>
-                  <SelectItem value="shipped">Shipped</SelectItem>
-                  <SelectItem value="delivered">Delivered</SelectItem>
-                  <SelectItem value="cancelled">Cancelled</SelectItem>
+                  <SelectItem value="Pending">Pending</SelectItem>
+                  <SelectItem value="Processing">Processing</SelectItem>
+                  <SelectItem value="Shipped">Shipped</SelectItem>
+                  <SelectItem value="Delivered">Delivered</SelectItem>
+                  <SelectItem value="Cancelled">Cancelled</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -288,11 +288,11 @@ const AdminOrders = () => {
                             </Badge>
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem value="pending">Pending</SelectItem>
-                            <SelectItem value="processing">Processing</SelectItem>
-                            <SelectItem value="shipped">Shipped</SelectItem>
-                            <SelectItem value="delivered">Delivered</SelectItem>
-                            <SelectItem value="cancelled">Cancelled</SelectItem>
+                            <SelectItem value="Pending">Pending</SelectItem>
+                            <SelectItem value="Processing">Processing</SelectItem>
+                            <SelectItem value="Shipped">Shipped</SelectItem>
+                            <SelectItem value="Delivered">Delivered</SelectItem>
+                            <SelectItem value="Cancelled">Cancelled</SelectItem>
                           </SelectContent>
                         </Select>
                       </TableCell>
